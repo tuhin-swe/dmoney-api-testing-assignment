@@ -1,0 +1,2006 @@
+{
+  "info": {
+    "name": "DMoney API Testing - Assignment 2 (Batch 19)",
+    "description": "Postman collection covering user registration, admin activation, login/OTP, and the full deposit -> sendmoney -> withdraw -> payment ledger flow for the DMoney Mobile Financial Service API. Generated for API Testing Assignment 2.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "dmoney-api-testing-assignment2"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (!pm.collectionVariables.get('runSuffix')) {",
+          "    const suffix = Date.now().toString().slice(-8);",
+          "    pm.collectionVariables.set('runSuffix', suffix);",
+          "    pm.collectionVariables.set('password', 'Test@1234');",
+          "",
+          "    pm.collectionVariables.set('customer1Name', 'Test Customer One');",
+          "    pm.collectionVariables.set('customer1Email', 'dmoney.cust1.' + suffix + '@gmail.com');",
+          "    pm.collectionVariables.set('customer1Phone', '011' + suffix);",
+          "    pm.collectionVariables.set('customer1Nid', '1' + suffix);",
+          "",
+          "    pm.collectionVariables.set('customer2Name', 'Test Customer Two');",
+          "    pm.collectionVariables.set('customer2Email', 'dmoney.cust2.' + suffix + '@gmail.com');",
+          "    pm.collectionVariables.set('customer2Phone', '012' + suffix);",
+          "    pm.collectionVariables.set('customer2Nid', '2' + suffix);",
+          "",
+          "    pm.collectionVariables.set('agentName', 'Test Agent One');",
+          "    pm.collectionVariables.set('agentEmail', 'dmoney.agent.' + suffix + '@gmail.com');",
+          "    pm.collectionVariables.set('agentPhone', '013' + suffix);",
+          "    pm.collectionVariables.set('agentNid', '3' + suffix);",
+          "",
+          "    pm.collectionVariables.set('merchantName', 'Test Merchant One');",
+          "    pm.collectionVariables.set('merchantEmail', 'dmoney.merch.' + suffix + '@gmail.com');",
+          "    pm.collectionVariables.set('merchantPhone', '014' + suffix);",
+          "    pm.collectionVariables.set('merchantNid', '4' + suffix);",
+          "",
+          "    pm.collectionVariables.set('dupEmailPhone', '015' + suffix);",
+          "    pm.collectionVariables.set('badRolePhone', '016' + suffix);",
+          "    pm.collectionVariables.set('badRoleEmail', 'dmoney.badrole.' + suffix + '@gmail.com');",
+          "    pm.collectionVariables.set('nonGmailPhone', '017' + suffix);",
+          "    pm.collectionVariables.set('nonGmailEmail', 'dmoney.badmail.' + suffix + '@yahoo.com');",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "runSuffix",
+      "value": ""
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "customer1Name",
+      "value": ""
+    },
+    {
+      "key": "customer1Email",
+      "value": ""
+    },
+    {
+      "key": "customer1Phone",
+      "value": ""
+    },
+    {
+      "key": "customer1Nid",
+      "value": ""
+    },
+    {
+      "key": "customer1Id",
+      "value": ""
+    },
+    {
+      "key": "customer1Token",
+      "value": ""
+    },
+    {
+      "key": "customer2Name",
+      "value": ""
+    },
+    {
+      "key": "customer2Email",
+      "value": ""
+    },
+    {
+      "key": "customer2Phone",
+      "value": ""
+    },
+    {
+      "key": "customer2Nid",
+      "value": ""
+    },
+    {
+      "key": "customer2Id",
+      "value": ""
+    },
+    {
+      "key": "customer2Token",
+      "value": ""
+    },
+    {
+      "key": "agentName",
+      "value": ""
+    },
+    {
+      "key": "agentEmail",
+      "value": ""
+    },
+    {
+      "key": "agentPhone",
+      "value": ""
+    },
+    {
+      "key": "agentNid",
+      "value": ""
+    },
+    {
+      "key": "agentId",
+      "value": ""
+    },
+    {
+      "key": "agentToken",
+      "value": ""
+    },
+    {
+      "key": "merchantName",
+      "value": ""
+    },
+    {
+      "key": "merchantEmail",
+      "value": ""
+    },
+    {
+      "key": "merchantPhone",
+      "value": ""
+    },
+    {
+      "key": "merchantNid",
+      "value": ""
+    },
+    {
+      "key": "merchantId",
+      "value": ""
+    },
+    {
+      "key": "merchantToken",
+      "value": ""
+    },
+    {
+      "key": "dupEmailPhone",
+      "value": ""
+    },
+    {
+      "key": "badRolePhone",
+      "value": ""
+    },
+    {
+      "key": "badRoleEmail",
+      "value": ""
+    },
+    {
+      "key": "nonGmailPhone",
+      "value": ""
+    },
+    {
+      "key": "nonGmailEmail",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "systemToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - User Registration",
+      "item": [
+        {
+          "name": "TC01 - Register Customer1 (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{customer1Name}}\",\n  \"email\": \"{{customer1Email}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{customer1Phone}}\",\n  \"nid\": \"{{customer1Nid}}\",\n  \"role\": \"Customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC01: Register Customer1 returns 201 Created\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC01: Response contains a user id and status 'pending'\", () => {",
+                  "    pm.expect(jsonData.user).to.have.property('id');",
+                  "    pm.expect(jsonData.user.status).to.eql('pending');",
+                  "});",
+                  "if (jsonData.user && jsonData.user.id) { pm.collectionVariables.set('customer1Id', jsonData.user.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC02 - Register Customer2 (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{customer2Name}}\",\n  \"email\": \"{{customer2Email}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{customer2Phone}}\",\n  \"nid\": \"{{customer2Nid}}\",\n  \"role\": \"Customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC02: Register Customer2 returns 201 Created\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC02: Response contains a user id and status 'pending'\", () => {",
+                  "    pm.expect(jsonData.user).to.have.property('id');",
+                  "    pm.expect(jsonData.user.status).to.eql('pending');",
+                  "});",
+                  "if (jsonData.user && jsonData.user.id) { pm.collectionVariables.set('customer2Id', jsonData.user.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC03 - Register Agent (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{agentName}}\",\n  \"email\": \"{{agentEmail}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{agentPhone}}\",\n  \"nid\": \"{{agentNid}}\",\n  \"role\": \"Agent\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC03: Register Agent returns 201 Created\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC03: Response contains a user id and status 'pending'\", () => {",
+                  "    pm.expect(jsonData.user).to.have.property('id');",
+                  "    pm.expect(jsonData.user.status).to.eql('pending');",
+                  "});",
+                  "if (jsonData.user && jsonData.user.id) { pm.collectionVariables.set('agentId', jsonData.user.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC04 - Register Merchant (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{merchantName}}\",\n  \"email\": \"{{merchantEmail}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{merchantPhone}}\",\n  \"nid\": \"{{merchantNid}}\",\n  \"role\": \"Merchant\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC04: Register Merchant returns 201 Created\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC04: Response contains a user id and status 'pending'\", () => {",
+                  "    pm.expect(jsonData.user).to.have.property('id');",
+                  "    pm.expect(jsonData.user.status).to.eql('pending');",
+                  "});",
+                  "if (jsonData.user && jsonData.user.id) { pm.collectionVariables.set('merchantId', jsonData.user.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC05 - Register Duplicate Email (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Duplicate Email User\",\n  \"email\": \"{{customer1Email}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{dupEmailPhone}}\",\n  \"nid\": \"999999999\",\n  \"role\": \"Customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC05: Duplicate email registration returns 208\", () => pm.response.to.have.status(208));",
+                  "pm.test(\"TC05: Error message reports the email already exists\", () => {",
+                  "    pm.expect(pm.response.json().message.toLowerCase()).to.include('already exists');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC06 - Register Invalid Role (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bad Role User\",\n  \"email\": \"{{badRoleEmail}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{badRolePhone}}\",\n  \"nid\": \"888888888\",\n  \"role\": \"SuperAdmin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC06: Registering with an invalid role returns 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC06: Error message lists the allowed roles\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('Role must be one of');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC07 - Register Non-Gmail Email (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Non Gmail User\",\n  \"email\": \"{{nonGmailEmail}}\",\n  \"password\": \"{{password}}\",\n  \"phone_number\": \"{{nonGmailPhone}}\",\n  \"nid\": \"777777777\",\n  \"role\": \"Customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC07: Registering with a non-Gmail email returns 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC07: Error message enforces the Gmail-only rule\", () => {",
+                  "    pm.expect(pm.response.json().message.toLowerCase()).to.include('gmail');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 - Admin Login & User Activation",
+      "item": [
+        {
+          "name": "TC08 - Admin Login (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@dmoney.com\",\n  \"password\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC08: Admin login returns 200\", () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC08: Admin receives a JWT directly (no OTP step)\", () => {",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.role).to.eql('Admin');",
+                  "});",
+                  "pm.collectionVariables.set('adminToken', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC09 - Admin Login Wrong Password (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@dmoney.com\",\n  \"password\": \"wrongpassword\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC09: Wrong password returns 401\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"TC09: Error message indicates incorrect password\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('Password incorrect');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC10 - Admin Activates Customer1 (Positive)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/update/{{customer1Id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "update",
+                "{{customer1Id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC10: Activating Customer1 returns 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC10: Customer1 status becomes 'active'\", () => {",
+                  "    pm.expect(pm.response.json().user.status).to.eql('active');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC11 - Admin Activates Customer2 (Positive)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/update/{{customer2Id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "update",
+                "{{customer2Id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC11: Activating Customer2 returns 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC11: Customer2 status becomes 'active'\", () => {",
+                  "    pm.expect(pm.response.json().user.status).to.eql('active');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC12 - Admin Activates Agent (Positive)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/update/{{agentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "update",
+                "{{agentId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC12: Activating Agent returns 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC12: Agent status becomes 'active'\", () => {",
+                  "    pm.expect(pm.response.json().user.status).to.eql('active');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC13 - Admin Activates Merchant (Positive)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/update/{{merchantId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "update",
+                "{{merchantId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC13: Activating Merchant returns 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC13: Merchant status becomes 'active'\", () => {",
+                  "    pm.expect(pm.response.json().user.status).to.eql('active');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Login & OTP Verification",
+      "item": [
+        {
+          "name": "TC14a - Agent Login - Request OTP (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"{{agentPhone}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC14: Agent login returns 200 and requires OTP\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC14: Response indicates otpRequired = true\", () => {",
+                  "    pm.expect(pm.response.json().otpRequired).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC14b - Agent Verify OTP - Dev Bypass (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/verify-otp?env=dev",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "verify-otp"
+              ],
+              "query": [
+                {
+                  "key": "env",
+                  "value": "dev"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{agentPhone}}\",\n  \"otp\": \"{{defaultOtp}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC14: Agent OTP verification returns 200\", () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC14: JWT issued with role 'Agent'\", () => {",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.role).to.eql('Agent');",
+                  "});",
+                  "pm.collectionVariables.set('agentToken', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC15 - Non-Admin Cannot Activate Another Account (Negative)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{agentToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/update/{{customer2Id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "update",
+                "{{customer2Id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC15: Agent updating another user's account returns 403\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"TC15: Error message denies cross-account access\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('own account');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC16 - Customer1 Login - Request OTP (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"{{customer1Phone}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC16: Customer1 login returns 200 and requires OTP\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC16: Response indicates otpRequired = true\", () => {",
+                  "    pm.expect(pm.response.json().otpRequired).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC17 - Customer1 Verify OTP - Wrong Code (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/verify-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "verify-otp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{customer1Phone}}\",\n  \"otp\": \"9999\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC17: Wrong OTP returns 401\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"TC17: Error message indicates invalid OTP\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('Invalid OTP');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC18 - Customer1 Verify OTP - Correct / Dev Bypass (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/verify-otp?env=dev",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "verify-otp"
+              ],
+              "query": [
+                {
+                  "key": "env",
+                  "value": "dev"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{customer1Phone}}\",\n  \"otp\": \"{{defaultOtp}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC18: Correct OTP verification returns 200\", () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC18: JWT issued with role 'Customer'\", () => {",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.role).to.eql('Customer');",
+                  "});",
+                  "pm.collectionVariables.set('customer1Token', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC19a - Customer2 Login - Request OTP (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"{{customer2Phone}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC19: Customer2 login returns 200 and requires OTP\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC19: Response indicates otpRequired = true\", () => {",
+                  "    pm.expect(pm.response.json().otpRequired).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC19b - Customer2 Verify OTP - Dev Bypass (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/verify-otp?env=dev",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "verify-otp"
+              ],
+              "query": [
+                {
+                  "key": "env",
+                  "value": "dev"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{customer2Phone}}\",\n  \"otp\": \"{{defaultOtp}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC19: Customer2 OTP verification returns 200\", () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC19: JWT issued with role 'Customer'\", () => {",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.role).to.eql('Customer');",
+                  "});",
+                  "pm.collectionVariables.set('customer2Token', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC20a - Merchant Login - Request OTP (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"{{merchantPhone}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC20: Merchant login returns 200 and requires OTP\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"TC20: Response indicates otpRequired = true\", () => {",
+                  "    pm.expect(pm.response.json().otpRequired).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC20b - Merchant Verify OTP - Dev Bypass (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/verify-otp?env=dev",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "verify-otp"
+              ],
+              "query": [
+                {
+                  "key": "env",
+                  "value": "dev"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{merchantPhone}}\",\n  \"otp\": \"{{defaultOtp}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC20: Merchant OTP verification returns 200\", () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC20: JWT issued with role 'Merchant'\", () => {",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.role).to.eql('Merchant');",
+                  "});",
+                  "pm.collectionVariables.set('merchantToken', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 - Transactions (Deposit, SendMoney, Withdraw, Payment)",
+      "item": [
+        {
+          "name": "TC21a - SYSTEM Login (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"system@dmoney.com\",\n  \"password\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC21: SYSTEM login returns 200\", () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC21: SYSTEM receives a JWT directly (no OTP step)\", () => {",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "});",
+                  "pm.collectionVariables.set('systemToken', jsonData.token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC21b - SYSTEM Deposits 5000 to Agent (Positive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{systemToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/deposit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "deposit"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"SYSTEM\",\n  \"to_account\": \"{{agentPhone}}\",\n  \"amount\": 5000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC21: SYSTEM to Agent deposit returns 201\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC21: Agent balance reflects the 5000 tk credit\", () => {",
+                  "    pm.expect(jsonData.agentBalance).to.eql(5000);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC22 - SYSTEM Deposit to Customer (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{systemToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/deposit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "deposit"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"SYSTEM\",\n  \"to_account\": \"{{customer1Phone}}\",\n  \"amount\": 1000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC22: SYSTEM depositing directly to a Customer returns 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC22: Error message restricts SYSTEM deposits to Agent accounts\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('regular Agent');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC23 - Agent Deposits 2000 to Customer1 (Positive - assert commission)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{agentToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/deposit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "deposit"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{agentPhone}}\",\n  \"to_account\": \"{{customer1Phone}}\",\n  \"amount\": 2000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC23: Agent to Customer1 deposit returns 201\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC23: Deposit commission equals 50 tk (2.5% of 2000)\", () => {",
+                  "    pm.expect(jsonData.commission).to.eql(50);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC24 - Agent Deposit to Merchant (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{agentToken}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/deposit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "deposit"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{agentPhone}}\",\n  \"to_account\": \"{{merchantPhone}}\",\n  \"amount\": 500\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC24: Agent depositing to a Merchant returns 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC24: Error message restricts deposit recipients to Customer accounts\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('Customer');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC25 - Deposit Missing X-AUTH-SECRET-KEY Header (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{agentToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/deposit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "deposit"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{agentPhone}}\",\n  \"to_account\": \"{{customer1Phone}}\",\n  \"amount\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC25: Missing partner secret key header returns 401\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"TC25: Error message reports secret key validation failure\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('Secret auth key');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC26 - Customer1 Sends 1000 to Customer2 (Positive - assert service fee)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer1Token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/sendmoney",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "sendmoney"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{customer1Phone}}\",\n  \"to_account\": \"{{customer2Phone}}\",\n  \"amount\": 1000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC26: SendMoney Customer1 -> Customer2 returns 201\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC26: Service fee equals the flat 5 tk SendMoney fee\", () => {",
+                  "    pm.expect(jsonData.fee).to.eql(5);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC27 - SendMoney To Self (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer1Token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/sendmoney",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "sendmoney"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{customer1Phone}}\",\n  \"to_account\": \"{{customer1Phone}}\",\n  \"amount\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC27: Sending money to the same account returns 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"TC27: Error message forbids same from/to account\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('cannot be the same');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC28 - Customer2 Cashout 500 from Agent (Positive - assert service fee)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer2Token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/withdraw",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "withdraw"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{customer2Phone}}\",\n  \"to_account\": \"{{agentPhone}}\",\n  \"amount\": 500\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC28: Withdraw Customer2 from Agent returns 201\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC28: Withdraw service fee equals 5 tk (1% floored to the 5 tk minimum)\", () => {",
+                  "    pm.expect(jsonData.fee).to.eql(5);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC29 - Customer2 Pays 400 to Merchant (Positive - assert service fee)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer2Token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/payment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "payment"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{customer2Phone}}\",\n  \"to_account\": \"{{merchantPhone}}\",\n  \"amount\": 400\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC29: Payment Customer2 -> Merchant returns 201\", () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"TC29: Payment service fee equals 5 tk (1% floored to the 5 tk minimum)\", () => {",
+                  "    pm.expect(jsonData.fee).to.eql(5);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC30 - Payment Without Auth Token (Negative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-AUTH-SECRET-KEY",
+                "value": "{{secretKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction/payment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction",
+                "payment"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_account\": \"{{customer2Phone}}\",\n  \"to_account\": \"{{merchantPhone}}\",\n  \"amount\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"TC30: Payment without an Authorization header returns 401\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"TC30: Error message reports no token found\", () => {",
+                  "    pm.expect(pm.response.json().message).to.include('No Token Found');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

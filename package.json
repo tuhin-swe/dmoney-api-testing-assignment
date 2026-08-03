@@ -1,0 +1,14 @@
+{
+  "name": "dmoney-postman-api-testing",
+  "version": "1.0.0",
+  "description": "Postman/Newman API testing suite for DMoney Assignment 2 (Batch 19)",
+  "private": true,
+  "scripts": {
+    "test": "newman run postman/DMoney-API-Testing.postman_collection.json -e postman/DMoney-Local.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export reports/newman-report.html",
+    "test:json": "newman run postman/DMoney-API-Testing.postman_collection.json -e postman/DMoney-Local.postman_environment.json --reporters cli,json --reporter-json-export reports/newman-report.json"
+  },
+  "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

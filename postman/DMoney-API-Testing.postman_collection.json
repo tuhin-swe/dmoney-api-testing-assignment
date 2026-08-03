@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "DMoney API Testing - Assignment 2 (Batch 19)",
-    "description": "Postman collection covering user registration, admin activation, login/OTP, and the full deposit -> sendmoney -> withdraw -> payment ledger flow for the DMoney Mobile Financial Service API. Generated for API Testing Assignment 2.",
+    "name": "DMoney API Testing Assignment",
+    "description": "Postman collection covering user registration, admin activation, login/OTP, and the full deposit -> sendmoney -> withdraw -> payment ledger flow for the DMoney Mobile Financial Service API.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_postman_id": "dmoney-api-testing-assignment2"
   },

@@ -9,23 +9,23 @@ const AUTH_HEADERS = {
     none: [],
     admin: [
         { key: 'Authorization', value: 'Bearer {{adminToken}}', type: 'text' },
-        { key: 'X-AUTH-SECRET-KEY', value: '{{secretKey}}', type: 'text' }
+        { key: 'X-AUTH-SECRET-KEY', value: '{{partnerKey}}', type: 'text' }
     ],
     system: [
         { key: 'Authorization', value: 'Bearer {{systemToken}}', type: 'text' },
-        { key: 'X-AUTH-SECRET-KEY', value: '{{secretKey}}', type: 'text' }
+        { key: 'X-AUTH-SECRET-KEY', value: '{{partnerKey}}', type: 'text' }
     ],
     agent: [
         { key: 'Authorization', value: 'Bearer {{agentToken}}', type: 'text' },
-        { key: 'X-AUTH-SECRET-KEY', value: '{{secretKey}}', type: 'text' }
+        { key: 'X-AUTH-SECRET-KEY', value: '{{partnerKey}}', type: 'text' }
     ],
     customer1: [
         { key: 'Authorization', value: 'Bearer {{customer1Token}}', type: 'text' },
-        { key: 'X-AUTH-SECRET-KEY', value: '{{secretKey}}', type: 'text' }
+        { key: 'X-AUTH-SECRET-KEY', value: '{{partnerKey}}', type: 'text' }
     ],
     customer2: [
         { key: 'Authorization', value: 'Bearer {{customer2Token}}', type: 'text' },
-        { key: 'X-AUTH-SECRET-KEY', value: '{{secretKey}}', type: 'text' }
+        { key: 'X-AUTH-SECRET-KEY', value: '{{partnerKey}}', type: 'text' }
     ],
     // Deliberately missing the X-AUTH-SECRET-KEY header (negative test)
     agentMissingSecret: [
@@ -33,7 +33,7 @@ const AUTH_HEADERS = {
     ],
     // Deliberately missing the Authorization header (negative test)
     missingAuthWithSecret: [
-        { key: 'X-AUTH-SECRET-KEY', value: '{{secretKey}}', type: 'text' }
+        { key: 'X-AUTH-SECRET-KEY', value: '{{partnerKey}}', type: 'text' }
     ]
 };
 
@@ -588,7 +588,7 @@ const environment = {
     name: 'DMoney - Local',
     values: [
         { key: 'baseUrl', value: 'http://localhost:5000', enabled: true },
-        { key: 'secretKey', value: 'ROADTOSDET', enabled: true },
+        { key: 'partnerKey', value: 'ROADTOSDET', enabled: true },
         { key: 'defaultOtp', value: '0000', enabled: true }
     ],
     _postman_variable_scope: 'environment'

@@ -639,7 +639,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -697,7 +697,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -755,7 +755,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -813,7 +813,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -979,7 +979,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1447,7 +1447,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1505,7 +1505,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1562,7 +1562,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1620,7 +1620,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1729,7 +1729,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1787,7 +1787,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1844,7 +1844,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1902,7 +1902,7 @@
               },
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {
@@ -1955,7 +1955,7 @@
             "header": [
               {
                 "key": "X-AUTH-SECRET-KEY",
-                "value": "{{secretKey}}",
+                "value": "{{partnerKey}}",
                 "type": "text"
               },
               {

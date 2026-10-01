@@ -1,4 +1,4 @@
-# DMoney API Testing — Assignment 2 
+# DMoney API Testing 
 
 Postman/Newman API test suite for the **DMoney** Mobile Financial Service backend, covering the required flow end-to-end:
 
